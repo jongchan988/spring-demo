@@ -80,6 +80,16 @@ class ItemRepositoryTest {
         this._printItemList(itemList);
     }
 
+    @Test
+    @DisplayName("가격 LessThan, 가격 내림차순 조회 테스트")
+    public void findByPriceLessThanOrderByPriceTest(){
+        this._creatItemList();
+        List<Item> itemList = itemRepository.findByPriceLessThanOrderByPriceDesc(10005);
+        this._printItemList(itemList);
+    }
+
+
+
 
 
 }
