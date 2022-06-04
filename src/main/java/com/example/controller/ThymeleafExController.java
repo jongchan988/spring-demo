@@ -31,10 +31,7 @@ public class ThymeleafExController {
         model.addAttribute("itemDto", itemDto);
         return "thymeleafEx/thymeleafEx02";
     }
-
-    @GetMapping(value = "/ex03")
-    public String thymeleafExample03(Model model){
-
+    private List<ItemDto> _getCommonItemDtoList(){
         List<ItemDto> itemDtoList = new ArrayList<>();
         for (int i=1;i<=10;i++){
             ItemDto itemDto = new ItemDto();
@@ -44,7 +41,18 @@ public class ThymeleafExController {
             itemDto.setRegTime(LocalDateTime.now());
             itemDtoList.add(itemDto);
         }
-        model.addAttribute("itemDtoList", itemDtoList);
+        return itemDtoList;
+    }
+
+    @GetMapping(value = "/ex03")
+    public String thymeleafExample03(Model model){
+        model.addAttribute("itemDtoList", this._getCommonItemDtoList());
         return "thymeleafEx/thymeleafEx03";
+    }
+
+    @GetMapping(value = "/ex04")
+    public String thymeleafExample04(Model model){
+        model.addAttribute("itemDtoList", this._getCommonItemDtoList());
+        return "thymeleafEx/thymeleafEx04";
     }
 }
