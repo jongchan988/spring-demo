@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-@PropertySource(value = {"classpath:application.real.properties"})
+@PropertySource(value = {"classpath:application.dev.properties"})
 public class SpringDemoApplication {
 
     public static void main(String[] args) {
