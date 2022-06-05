@@ -14,10 +14,4 @@ public class SpringDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringDemoApplication.class, args);
     }
-
-    @GetMapping(value="/")
-    public String HelloWorld(){
-    	return  "Hello world";
-	}
-
 }
