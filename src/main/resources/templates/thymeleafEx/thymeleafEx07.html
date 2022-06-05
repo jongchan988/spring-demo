@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html 	xmlns:th="http://www.thymeleaf.org"
+         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+         layout:decorate="~{layouts/layout}">
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/contentPage.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <div style="width: 100%; height:100px; background: #f2d299;">
+        this area is content1d
+    </div>
+</div>
+</html>
