@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 // 상품
-public class Item {
+public class Item extends BaseEntity{
     // 상품 코드
     @Id
     @Column(name="item_id")
@@ -41,10 +41,4 @@ public class Item {
     // 상품 판매 상태
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;
-
-    // 등록 시간
-    private LocalDateTime regTime;
-
-    // 수정 시간
-    private LocalDateTime updateTime;
 }
