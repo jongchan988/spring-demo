@@ -75,4 +75,33 @@ class OrderTest {
         assertEquals(3, savedOrder.getOrderItems().size());
     }
 
+    private Order _createOrder(){
+        Order order = new Order();
+        for(int i=0;i<3;i++){
+            Item item = this.createItem();
+            itemRepository.save(item);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setCount(10);
+            orderItem.setOrderPrice(1000);
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+        }
+
+        Member member = new Member();
+        memberRepository.save(member);
+
+        order.setMember(member);
+        orderRepository.save(order);
+        return order;
+    }
+
+    @Test
+    @DisplayName("고아객체 제거 테스트")
+    public void orphanRemovalTest(){
+        Order order = this._createOrder();
+        order.getOrderItems().remove(0);
+        em.flush();
+    }
+
 }
