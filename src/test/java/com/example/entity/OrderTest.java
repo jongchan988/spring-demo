@@ -2,6 +2,7 @@ package com.example.entity;
 
 import com.example.constant.ItemSellStatus;
 import com.example.repository.ItemRepository;
+import com.example.repository.OrderItemRepository;
 import com.example.repository.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,9 @@ class OrderTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
 
 
@@ -102,6 +106,22 @@ class OrderTest {
         Order order = this._createOrder();
         order.getOrderItems().remove(0);
         em.flush();
+    }
+
+    @Test
+    @DisplayName("지연 로딩 테스트")
+    public void lazyLoadingTest(){
+        Order order = this._createOrder();
+        Long orderItemId = order.getOrderItems().get(0).getId();
+        em.flush();
+        em.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class : " + orderItem.getOrder().getClass());
+
+        System.out.println("=======================");
+        orderItem.getOrder().getOrderDate();
+        System.out.println("=======================");
     }
 
 }
