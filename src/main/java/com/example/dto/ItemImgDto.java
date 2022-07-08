@@ -7,6 +7,10 @@ import org.modelmapper.ModelMapper;
 
 @Getter@Setter
 public class ItemImgDto {
+    //이랜드 서류합격
+    //인터뷰 줌 30분
+    //다음주 월 오후3시
+    //이랜드 채용 이력서에 등록해야됩니다.
     private Long id;
 
     private String imgName;
