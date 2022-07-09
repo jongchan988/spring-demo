@@ -2,6 +2,8 @@ package com.example.service;
 
 import com.example.dto.CartDetailDto;
 import com.example.dto.CartItemDto;
+import com.example.dto.CartOrderDto;
+import com.example.dto.OrderDto;
 import com.example.entity.Cart;
 import com.example.entity.CartItem;
 import com.example.entity.Item;
@@ -11,6 +13,7 @@ import com.example.repository.CartRepository;
 import com.example.repository.ItemRepository;
 import com.example.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
@@ -27,6 +30,7 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final OrderService orderService;
 
     public Long addCart(CartItemDto cartItemDto, String email){
         Item item = itemRepository.findById(cartItemDto.getItemId()).orElseThrow(EntityNotFoundException::new);
@@ -81,5 +85,22 @@ public class CartService {
     public void deleteCartItem(Long cartItemId){
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
         cartItemRepository.delete(cartItem);
+    }
+
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email){
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for(CartOrderDto cartOrderDto : cartOrderDtoList){
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId()).orElseThrow(EntityNotFoundException::new);
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setCount(cartItem.getCount());
+            orderDtoList.add(orderDto);
+        }
+        Long orderId = orderService.orders(orderDtoList, email);
+        for (CartOrderDto cartOrderDto :cartOrderDtoList){
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId()).orElseThrow(EntityNotFoundException::new);
+            cartItemRepository.delete(cartItem);
+        }
+        return orderId;
     }
 }
